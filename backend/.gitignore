@@ -1,0 +1,9 @@
+node_modules
+package-lock.json
+package.json
+yarn-error.log
+yarn.lock
+config
+backend/src/app/models/Task.js
+backend/src/app/models/Glucose.js
+backend\src\index.js
