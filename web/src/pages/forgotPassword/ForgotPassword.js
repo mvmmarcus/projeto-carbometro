@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import api from '../../services/api';
 import { Redirect } from 'react-router';
 
+import ReactDOM from 'react-dom';
+
 import './ForgotPassword.css'
 
 const ForgotPassword = () => {
@@ -19,7 +21,16 @@ const ForgotPassword = () => {
                 console.log(redirect)
                 console.log(response)
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error);
+
+                const element = <div className="alert alert-danger" role="alert">
+                    Email Inválido!
+                                </div>
+
+                ReactDOM.render(element, document.getElementById("boot"));
+
+            });
     }
 
     if (redirect) {
@@ -32,6 +43,8 @@ const ForgotPassword = () => {
                 <h1>Insira o email de cadastro</h1>
                 <p>Enviaremos um codigo de verificação em seu email</p>
                 <form onSubmit={handleSubmit}>
+                    <div id="boot" >
+                    </div>
                     <div>
                         <label id="inputTitle" htmlFor="email" ></label>
                         <input
@@ -49,5 +62,5 @@ const ForgotPassword = () => {
         </div>
     )
 }
-    
+
 export default ForgotPassword

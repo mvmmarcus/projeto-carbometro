@@ -62,6 +62,23 @@ routes.get('/users', async (request, response) => {
 
 });
 
+routes.get('/users/:id', async (request, response) => {
+
+    const id = request.params.id;
+
+    const user = await User.findById(id)
+
+    try {
+        return response.json({ user })
+    }
+    catch (err) {
+        console.log(err)
+        return response.json({ err: "falha na busca dos usuarios cadastrados no bd" })
+
+    }
+
+});
+
 routes.post('/login', async (request, response) => {
     const { email, password } = request.body;
 

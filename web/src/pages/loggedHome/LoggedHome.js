@@ -1,25 +1,34 @@
-import React, { useState } from 'react'
-import { logout } from '../../services/auth'
-import { Redirect } from 'react-router';
+import React from 'react'
+
+import api from '../../services/api';
+import { getId } from '../../services/auth';
 
 const LoggedHome = () => {
 
-    const [redirect, setRedirect] = useState(false);
+    async function getUserId() {
 
-    async function handleLogout(e) {
-        e.preventDefault()
+        const id = getId();
 
-        logout();
+        console.log(id)
 
-        setRedirect(true);
+        await api.get(`/users/${id}`)
+            .then(response => {
+                console.log(response.data)
+            })
+            .catch (error => {
+                console.log(error)
+            })
+        
     }
-
-    if (redirect) return <Redirect to="/" />
-
+    
+    getUserId()
     return (
-        <div id="root" >
-            <button onClick={handleLogout} >Logout</button>
-        </div >
+        <>
+            <h1>Antes de prosseguir, finalize o seu cadastro</h1>
+            <div id="root" >
+
+            </div >
+        </>
     )
 
 }
