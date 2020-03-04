@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import api from '../../services/api'
 
+import ReactDOM from 'react-dom';
+
 import './Login.css'
 import { login } from '../../services/auth';
 import { Redirect } from 'react-router';
@@ -28,21 +30,31 @@ const Login = () => {
                 console.log(response)
 
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error);
+
+                const element = <div className="alert alert-danger" role="alert">
+                                    Email e/ou Senha incorreto!
+                                </div>
+
+                ReactDOM.render(element, document.getElementById("boot"));
+            });
 
         setEmail('');
         setPassword('');
-    }
+    };
 
     if (redirect) {
         return <Redirect to="/home" />
-    }
+    };
 
     return (
         <div id="app">
             <aside>
                 <h1>Login</h1>
                 <form onSubmit={handleSubmit}>
+                    <div id="boot" >
+                    </div>
                     <div>
                         <label id="inputTitle" htmlFor="email" ></label>
                         <input
@@ -57,6 +69,7 @@ const Login = () => {
                     <div>
                         <label id="inputTitle" htmlFor="password" ></label>
                         <input
+                            type="password"
                             placeholder="Password *"
                             className="Login-Field"
                             name="password"
