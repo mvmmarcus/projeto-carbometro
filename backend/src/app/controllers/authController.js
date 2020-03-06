@@ -185,24 +185,18 @@ routes.post('/reset_password', async (request, response) => {
 authRoutes.post('/insert_glucose/:id', async (request, response) => {
 
     const id = request.params.id;
-    const { blood_glucose } = request.body;
+    const { value } = request.body;
 
     try {
-
-        console.log(blood_glucose)
-        /*const data = new Date().toLocaleString('pt-BR', {
-            timeZone: "America/Sao_Paulo"
-          });
-          */
 
         const user = await User.findByIdAndUpdate(id, {
 
             $push: {
-                blood_glucose: blood_glucose
+                blood_glucose: [{value}]
             }
         })
 
-        return response.json({ message: "valor de glicemia inserido" })
+        return response.json({user})
 
     }
     catch (err) {
@@ -212,7 +206,7 @@ authRoutes.post('/insert_glucose/:id', async (request, response) => {
 
 });
 
-authRoutes.get('/get_glucose/:id', async (request, response) => {
+routes.get('/get_glucose/:id', async (request, response) => {
 
     const id = request.params.id;
 
@@ -243,7 +237,7 @@ authRoutes.delete('/delete_glucose/:id/:glucoseId', async (request, response) =>
             { multi: true }
         )
 
-        return response.json(user)
+        return response.json(user.blood_glucose)
 
     }
 
@@ -258,10 +252,11 @@ authRoutes.put('/update_glucose/:id/:glucoseId', async (request, response) => {
 
     const id = request.params.id;
     const glucoseId = request.params.glucoseId
-    const user = await User.findById(id)
+    
     const { valor } = request.body
 
     try {
+        
         const now = new Date().toLocaleString('pt-BR', {
             timeZone: "America/Sao_Paulo"
         });
@@ -271,8 +266,10 @@ authRoutes.put('/update_glucose/:id/:glucoseId', async (request, response) => {
             { _id: id, "blood_glucose._id": glucoseId },
             { $set: { "blood_glucose.$.value": valor, "blood_glucose.$.updatedAt": now } }
         )
+        
+        const user2 = await User.findById(id)
 
-        return response.json(valor);
+        return response.json(user2.blood_glucose);
 
     }
 
