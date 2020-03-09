@@ -82,6 +82,21 @@ function LoggedHome() {
 
     }
 
+    /*async function handlePoupupForm(e) {
+        e.preventDefault();
+
+        await authApi.post(`/login/insert_glucose/${id}`, {
+            value
+        })
+            .then(response => {
+                console.log(response)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    }*/
+
     return (
         <div id="app">
             <AddItem
@@ -102,6 +117,7 @@ function LoggedHome() {
                         />
                     ))
                 }
+
             </div>
         </div>
     )

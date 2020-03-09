@@ -53,7 +53,6 @@ const UserSchema = new mongoose.Schema({
         },
         updatedAt: {
             type: Date,
-            default: Date.now
         }
     }],
     corect_factor: Number, //100
