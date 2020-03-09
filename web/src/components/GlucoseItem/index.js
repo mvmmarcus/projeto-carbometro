@@ -1,22 +1,67 @@
+import React, { useState } from 'react';
+
+import './styles.css';
+
+function GlucoseItem({ glucose, onDelete, save, onChange, value}) {
+
+    const [editar, setEditar] = useState(false)
+
+    return (
+        <>
+            <div>
+                <h1>{glucose.value}</h1>
+                <p>{glucose.createdAt}</p>
+                {
+
+                    !editar ? (
+                        <>
+                            <button onClick={onDelete} >Excluir</button>
+                            <button onClick={() => setEditar(true)} >Editar</button>
+                        </>
+                    ) : (
+                            <>
+                                <label htmlFor="glicemia"></label>
+                                <input onChange={onChange} name="glicemia" value={value} placeholder="glicemia" />
+                                <button onClick={save} >Alterar</button>
+                                <button onClick={() => setEditar(false)} >Cancelar</button>
+                            </>
+                        )
+                }
+            </div>
+
+        </>
+
+
+    )
+
+}
+
+export default GlucoseItem;
+
+
+/*
+
 import React from 'react';
 
 import './styles.css';
 
-function GlucoseItem({ onChange, onDelete, glucose }) {
+function GlucoseItem({ onDelete, glucose, save, value, onChange}) {
     return (
-        <li className="glucose-item" >
-            <div className="glucose-info" >
-                <input 
-                className="Item-Field"
-                onChange={onChange}
-                value={glucose.value}
-                />
-                {/*<strong onChange={onChange} >{glucose.value}</strong>*/}
-                <p onChange={onChange} >{glucose.createdAt}</p>
-                <button onClick={onDelete} >Excluir</button>
+        <div className="glucose-info" >
+            <h1>{glucose.value}</h1>
+            //<strong onChange={onChange} >{glucose.value}</strong>
+            <p>{glucose.createdAt}</p>
+            <button onClick={onDelete} >Excluir</button>
+            <div>
+                <label htmlFor="glicemia"></label>
+                <input onChange={onChange} name="glicemia" value={value} placeholder="glicemia" />
+                <button onClick={save} >Alterar</button>
             </div>
-        </li>
+        </div>
+
     )
 }
 
 export default GlucoseItem;
+
+*/

@@ -22,7 +22,7 @@ function generateToken(params = {}) { //função para atenticação com token (h
 }
 
 routes.get('/', (request, response) => {
-    response.json({homePge: "home"});
+    response.json({ homePge: "home" });
 });
 
 routes.post('/register', async (request, response) => {
@@ -192,11 +192,13 @@ authRoutes.post('/insert_glucose/:id', async (request, response) => {
         const user = await User.findByIdAndUpdate(id, {
 
             $push: {
-                blood_glucose: [{value}]
+                blood_glucose: [{ value }]
             }
         })
 
-        return response.json({user})
+        const { blood_glucose } = await User.findById(id);
+
+        return response.json(blood_glucose)
 
     }
     catch (err) {
@@ -252,11 +254,11 @@ authRoutes.put('/update_glucose/:id/:glucoseId', async (request, response) => {
 
     const id = request.params.id;
     const glucoseId = request.params.glucoseId
-    
+
     const { valor } = request.body
 
     try {
-        
+
         const now = new Date().toLocaleString('pt-BR', {
             timeZone: "America/Sao_Paulo"
         });
@@ -266,10 +268,13 @@ authRoutes.put('/update_glucose/:id/:glucoseId', async (request, response) => {
             { _id: id, "blood_glucose._id": glucoseId },
             { $set: { "blood_glucose.$.value": valor, "blood_glucose.$.updatedAt": now } }
         )
-        
-        const user2 = await User.findById(id)
 
-        return response.json(user2.blood_glucose);
+        console.log(valor)
+        console.log(glucoseId)
+
+        const { blood_glucose } = await User.findById(id);
+
+        return response.json(blood_glucose);
 
     }
 
