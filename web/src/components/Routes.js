@@ -12,6 +12,7 @@ import PrivateRoute from './PrivateRoute'
 import ForgotPassword from '../pages/forgotPassword/ForgotPassword'
 import ResetPassword from '../pages/resetPassword/ResetPassword'
 import Header from '../containers/Header'
+import AuthHeader from '../containers/AuthHeader'
 
 
 const Routes = () => (

@@ -32,8 +32,6 @@ function LoggedHome() {
 
     const id = getId();
 
-    //let i = 0;
-
     useEffect(() => {
         const id = getId();
         async function loadGlucoses() {
@@ -50,14 +48,12 @@ function LoggedHome() {
 
     }, [roda]);
 
-    async function handleAddGlucose() {
-        //e.preventDefault();
+    async function handleAddGlucose(e) {
+        e.preventDefault();
 
         const response = await authApi.post(`/insert_glucose/${id}`, {
             value
         });
-
-        // i++;
 
         setValue('');
 
@@ -127,9 +123,13 @@ function LoggedHome() {
             <>
                 <header>
                     <div className="Btn-header">
-                        <button className="Btn-logout" onClick={handleLogout}>
+                        {
+                            /*
+                            <button className="Btn-logout" onClick={handleLogout}>
                             Logout
-                </button>
+                            </button>
+                            */
+                        }
                     </div>
                 </header>
                 <div>

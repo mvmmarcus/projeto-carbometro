@@ -8,7 +8,7 @@ const AuthHeader = () => {
     async function handleLogout(e) {
         e.preventDefault()
 
-        logout();
+       logout();
 
     }
 
