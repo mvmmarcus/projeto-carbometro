@@ -11,20 +11,27 @@ import LoggedHome from '../pages/loggedHome'
 import PrivateRoute from './PrivateRoute'
 import ForgotPassword from '../pages/forgotPassword/ForgotPassword'
 import ResetPassword from '../pages/resetPassword/ResetPassword'
+import Header from '../containers/Header'
 
 
 const Routes = () => (
-    <BrowserRouter >
-        <Switch>
-            <Route component={Home} exact path="/"/>
-            <Route component={Login} exact path="/login" />
-            <Route component={Register} exact path="/register"/>
-            <Route component={ForgotPassword} exact path="/forgot_password"/>
-            <Route component={ResetPassword} exact path="/reset_password"/>
-            <PrivateRoute component={LoggedHome} exact path="/home"/>
-            <Route component={NotFound}/>
-        </Switch>
-    </BrowserRouter>
+    <div>
+        <BrowserRouter >
+            <div>
+                <Header />
+                <Switch>
+                    <Route component={Home} exact path="/" />
+                    <Route component={Login} exact path="/login" />
+                    <Route component={Register} exact path="/register" />
+                    <Route component={ForgotPassword} exact path="/forgot_password" />
+                    <Route component={ResetPassword} exact path="/reset_password" />
+                    <PrivateRoute component={LoggedHome} exact path="/home" />
+                    <Route component={NotFound} />
+                </Switch>
+            </div>
+        </BrowserRouter>
+    </div>
+
 )
 
 export default Routes

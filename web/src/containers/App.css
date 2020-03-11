@@ -1,4 +1,47 @@
 .App {
     margin: 0 auto;
-    width: 480px;
+    width: 1000px;
+}
+
+.Home-header {
+    display: flex;
+    align-items: center;
+    background-color: rgba(233, 72, 8, 0.959);
+}
+
+.Home-body {
+    text-align: center;
+    padding: 200px;
+}
+
+.Home-body h1 {
+    font-weight: bold;
+    font-size: 50px;
+    background-color: rgba(212, 170, 155, 0.959);
+    padding: 50px;
+    width: auto;
+}
+
+.Carb-title {
+    
+    text-align: left;
+    margin-left: 100px;
+}
+
+.Carb-title h1 {
+    font-weight: bold;
+    color: white;
+}
+
+.Btn-header {
+    margin-left: 400px;
+}
+
+.Btn-login {
+    margin-right: 20px;
+    color: white;
+}
+
+.Btn-register {
+    color: white;
 }

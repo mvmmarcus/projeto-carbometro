@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import './styles.css';
 
-function GlucoseItem({ glucose, onDelete, save, onChange, value}) {
+function GlucoseItem({ glucose, onDelete, save, onChange, value }) {
 
     const [editar, setEditar] = useState(false)
 
@@ -15,15 +15,22 @@ function GlucoseItem({ glucose, onDelete, save, onChange, value}) {
 
                     !editar ? (
                         <>
-                            <button onClick={onDelete} >Excluir</button>
-                            <button onClick={() => setEditar(true)} >Editar</button>
+                            <button className="btn-edit" onClick={() => setEditar(true)}>
+                                <i className="fas fa-pen"></i>
+                            </button> <button className="btn-delete" onClick={onDelete}>
+                                <i className="fas fa-trash-alt"></i>
+                            </button>
                         </>
                     ) : (
                             <>
                                 <label htmlFor="glicemia"></label>
                                 <input onChange={onChange} name="glicemia" value={value} placeholder="glicemia" />
-                                <button onClick={save} >Alterar</button>
-                                <button onClick={() => setEditar(false)} >Cancelar</button>
+                                <button className="btn-save" onClick={save}>
+                                    <i className="fas fa-check"></i>
+                                </button>
+                                <button onClick={() => setEditar(false)} >
+                                    <i className="fa fa-times" ></i>
+                                </button>
                             </>
                         )
                 }

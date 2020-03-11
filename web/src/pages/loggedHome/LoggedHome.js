@@ -5,9 +5,16 @@ import { getId } from '../../services/auth';
 import authApi from '../../services/authApi';
 //import api from '../../services/api';
 
+import { logout } from '../../services/auth'
+import { Redirect } from 'react-router';
+
 import GlucoseItem from '../../components/GlucoseItem/index'
 import api from '../../services/api';
 import AddItem from '../../components/AddGlucoseItem';
+
+import { Button, Modal, ModalBody } from 'react-bootstrap';
+
+import './LoggedHome.css'
 
 function LoggedHome() {
 
@@ -15,6 +22,13 @@ function LoggedHome() {
     const [value, setValue] = useState(String)
     const [roda, setRoda] = useState(Boolean)
     const [newValue, setNewValue] = useState(String)
+    const [redirect, setRedirect] = useState(false);
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
 
     const id = getId();
 
@@ -82,7 +96,7 @@ function LoggedHome() {
 
     }
 
-    /*async function handlePoupupForm(e) {
+    async function handlePoupupForm(e) {
         e.preventDefault();
 
         await authApi.post(`/login/insert_glucose/${id}`, {
@@ -95,14 +109,55 @@ function LoggedHome() {
                 console.log(err)
             })
 
-    }*/
+    }
+
+    async function handleLogout(e) {
+        e.preventDefault()
+
+        logout()
+
+        setRedirect(true);
+    }
+
+    if (redirect) return <Redirect to="/login" />
+
 
     return (
         <div id="app">
+            <>
+                <header>
+                    <div className="Btn-header">
+                        <button className="Btn-logout" onClick={handleLogout}>
+                            Logout
+                </button>
+                    </div>
+                </header>
+                <div>
+                    <Button variant="primary" onClick={handleShow}>
+                        Abrir Poupup!
+                    </Button>
+
+                    <div  >
+                        <Modal show={show} onHide={handleClose}>
+                            <ModalBody className="bodyModal" >
+                                <h1 className="textModal" >teste</h1>
+                                <h2 className="textModal" >titulo Poupup</h2>
+                                <form>
+                                    <label htmlFor="">
+                                        <input type="text" placeholder="insira a sua unidade *" />
+                                    </label>
+                                </form>
+
+                                <button onClick={handleClose} >fechar</button>
+                            </ModalBody>
+                        </Modal>
+                    </div>
+                </div>
+            </>
             <AddItem
-            onChange={e => setValue(e.target.value)}
-            value={value}
-            handleAdd={handleAddGlucose}
+                onChange={e => setValue(e.target.value)}
+                value={value}
+                handleAdd={handleAddGlucose}
             />
             <div>
                 {
