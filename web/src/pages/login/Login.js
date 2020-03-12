@@ -8,12 +8,11 @@ import { login, setId } from '../../services/auth';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({token, setToken}) => {
 
     const [users, setUsers] = useState([]);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [redirect, setRedirect] = useState(false);
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -24,12 +23,9 @@ const Login = () => {
         })
             .then(response => {
                 login(response.data.token)
+                setToken(true)
                 setId(response.data.user._id);
                 setUsers([...users, response.data]);
-                setRedirect(true)
-                console.log(redirect)
-                console.log(response)
-
             })
             .catch(error => {
                 console.log(error);
@@ -45,9 +41,9 @@ const Login = () => {
         setPassword('');
     };
 
-    if (redirect) {
+    if (token) {
         return <Redirect to="/home" />
-    };
+    }
 
     return (
         <div id="app">

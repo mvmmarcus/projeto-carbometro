@@ -5,8 +5,8 @@ import { getId } from '../../services/auth';
 import authApi from '../../services/authApi';
 //import api from '../../services/api';
 
-import { logout } from '../../services/auth'
-import { Redirect } from 'react-router';
+//import { logout } from '../../services/auth'
+//import { Redirect } from 'react-router';
 
 import GlucoseItem from '../../components/GlucoseItem/index'
 import api from '../../services/api';
@@ -22,7 +22,7 @@ function LoggedHome() {
     const [value, setValue] = useState(String)
     const [roda, setRoda] = useState(Boolean)
     const [newValue, setNewValue] = useState(String)
-    const [redirect, setRedirect] = useState(false);
+    //const [redirect, setRedirect] = useState(false);
 
     const [show, setShow] = useState(false);
 
@@ -92,30 +92,7 @@ function LoggedHome() {
 
     }
 
-    async function handlePoupupForm(e) {
-        e.preventDefault();
-
-        await authApi.post(`/login/insert_glucose/${id}`, {
-            value
-        })
-            .then(response => {
-                console.log(response)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-
-    }
-
-    async function handleLogout(e) {
-        e.preventDefault()
-
-        logout()
-
-        setRedirect(true);
-    }
-
-    if (redirect) return <Redirect to="/login" />
+    //if (redirect) return <Redirect to="/login" />
 
 
     return (
