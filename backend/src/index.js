@@ -7,7 +7,7 @@ const cors = require('cors');
 const app = express();
 
 //conectando ao banco e removendo mensagens de erro
-mongoose.connect('mongodb+srv://vhmvictor:131296vh@cluster0-zp7kr.mongodb.net/carb?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://<>:<>@cluster0-zp7kr.mongodb.net/carb?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
