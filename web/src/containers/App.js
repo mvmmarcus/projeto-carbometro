@@ -5,17 +5,27 @@ import './App.css'
 
 const App = () => {
 
-    const [token, setToken] = useState(false);
+    //const [token, setToken] = useState(false);
 
-    //setToken.bind(this); testar sem
+    const [logado, setLogado] = useState(false)
 
     useEffect(() => {
-        setToken(!!localStorage.getItem('user-token'));
+
+        if (localStorage.getItem("user-token")) {
+            setLogado(true)
+        } else {
+            setLogado(false)
+        }
+
     }, [])
+
+    /*useEffect(() => {
+        setToken(!!localStorage.getItem("user-token"))
+    }, [])*/
 
     return (
         <main className="App">
-            <Routes setToken={setToken} token={token} />
+            <Routes setLogado={setLogado} logado={logado} />
         </main>
     )
 

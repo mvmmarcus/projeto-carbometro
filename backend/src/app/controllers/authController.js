@@ -176,39 +176,16 @@ authRoutes.post('/insert_glucose/:id', async (request, response) => {
         const user = await User.findByIdAndUpdate(id, {
 
             $push: {
-                blood_glucose: [{ value }]
+                blood_glucose: {
+                    $each: [{ value }],
+                    $position: 0
+                }
             }
         })
 
         const { blood_glucose } = await User.findById(id);
 
         return response.json(blood_glucose)
-
-    }
-    catch (err) {
-        console.log(err)
-        return response.json({ err: "erro na adição de insulina" })
-    }
-
-});
-
-authRoutes.post('/login/insert_glucose/:id', async (request, response) => {
-
-    const id = request.params.id;
-    const { value } = request.body;
-
-    try {
-
-        const user = await User.findByIdAndUpdate(id, {
-
-            $push: {
-                unity: [{ value }]
-            }
-        })
-
-        const { unity } = await User.findById(id);
-
-        return response.json(unity)
 
     }
     catch (err) {

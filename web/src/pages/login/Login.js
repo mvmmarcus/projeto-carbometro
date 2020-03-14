@@ -5,10 +5,10 @@ import ReactDOM from 'react-dom';
 
 import './Login.css'
 import { login, setId } from '../../services/auth';
-import { Redirect } from 'react-router';
-import { Link } from 'react-router-dom';
+//import { Redirect } from 'react-router';
+import { Link, Redirect } from 'react-router-dom';
 
-const Login = ({token, setToken}) => {
+const Login = ({logado, setLogado}) => {
 
     const [users, setUsers] = useState([]);
     const [email, setEmail] = useState('');
@@ -23,7 +23,7 @@ const Login = ({token, setToken}) => {
         })
             .then(response => {
                 login(response.data.token)
-                setToken(true)
+                setLogado(true)
                 setId(response.data.user._id);
                 setUsers([...users, response.data]);
             })
@@ -41,7 +41,7 @@ const Login = ({token, setToken}) => {
         setPassword('');
     };
 
-    if (token) {
+    if (logado) {
         return <Redirect to="/home" />
     }
 

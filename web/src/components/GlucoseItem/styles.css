@@ -1,0 +1,101 @@
+.teste {
+    text-align: center;
+    margin-left: 350px;
+    margin-right: 350px;
+    margin-top: 1rem;
+}
+
+.updatedAt-value strong {
+    font-size: large;
+}
+
+.createdAt-value {
+    text-align: left;
+}
+
+.updatedAt-value {
+    text-align: left;
+}
+
+.createdAt-value strong {
+    font-size: large;
+}
+
+.Padrao-value h1{
+    color: white;
+    background-color: rgb(186, 206, 95);
+    font-weight: bold;
+}
+
+.Uni-value {
+   margin-bottom: 20px;
+}
+
+.Hiper-value {
+    margin-bottom: 20px;
+}
+
+.Hipo-value {
+    margin-bottom: 20px;
+}
+
+.Uni-value h1{
+    color: white;
+    background-color: rgb(112, 187, 112);
+    font-weight: bold;
+    
+}
+
+.Hiper-value h1{
+    color: white;
+    background-color: rgb(233, 79, 79);
+    font-weight: bold;
+}
+
+.Hipo-value h1{
+    color: white;
+    background-color: rgb(233, 79, 79);
+    font-weight: bold;
+}
+
+.Hiper-value strong{
+    color:black;
+    font-weight: bold;
+}
+
+.Hipo-value strong{
+    color:black;
+    font-weight: bold;
+}
+
+.up-del-btn {
+    text-align: center;
+}
+
+.btn-edit {
+    background: none;
+    border: none;
+}
+
+.btn-save {
+    color: green;
+    background: none;
+    border: none;
+}
+
+.btn-cancel {
+    color: red;
+    background: none;
+    border: none;
+}
+
+.btn-save span {
+    color: orange
+}
+
+.btn-delete {
+    color: red;
+    background: none;
+    border: none;
+    margin-left: 15px;
+}

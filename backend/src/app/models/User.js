@@ -55,17 +55,33 @@ const UserSchema = new mongoose.Schema({
             type: Date,
         }
     }],
-    corect_factor: Number, //100
-    value_lantus: Number, //fixo
-    value_breakfast: Number, //fixo
-    valeu_lunch: Number, //fixo
-    value_afternoon: Number, //fixo
-    value_dinner: Number, //fixo
-    avatar_url: String,
-    phone: Number,
-    born: Date,
-    weight: Number,
-    height: Number
+    born: {
+        type: Date,
+    },
+    weight: {
+        type: Number,
+    },
+    height: {
+        type: Number,
+    },
+    sexo: {
+        type: String
+    },
+    typeDm: {
+        type: String
+    },
+    breakfastCHO: {
+        type: Number
+    },
+    lunchCHO: {
+        type: Number
+    },
+    afternoonSnackCHO: {
+        type: Number
+    },
+    dinnerCHO: {
+        type: Number
+    }
 });
 
 UserSchema.pre('save', async function(next) { //realizar ação antes de salvar usuário
