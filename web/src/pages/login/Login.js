@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 
 import './Login.css'
 import { login, setId } from '../../services/auth';
-//import { Redirect } from 'react-router';
+
 import { Link, Redirect } from 'react-router-dom';
 
 const Login = ({logado, setLogado}) => {

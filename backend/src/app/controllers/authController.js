@@ -272,6 +272,48 @@ authRoutes.put('/update_glucose/:id/:glucoseId', async (request, response) => {
 
 })
 
+authRoutes.post('/user/add_infos/:id', async (request, response) => {
+
+    const id = request.params.id;
+    const { 
+            breakfastCHO, 
+            lunchCHO, 
+            afternoonSnackCHO, 
+            dinnerCHO, 
+            born, 
+            weight, 
+            height, 
+            sexo, 
+            typeDm 
+    } = request.body;
+
+    try {
+
+        const user = await User.updateOne(
+            { _id: id },
+            { $set: 
+                { 'breakfastCHO': breakfastCHO, 
+                  'lunchCHO': lunchCHO, 
+                  'afternoonSnackCHO': afternoonSnackCHO, 
+                  'dinnerCHO': dinnerCHO,
+                  'born': born,
+                  'weight': weight,
+                  'height': height,
+                  'sexo': sexo,
+                  'typeDm': typeDm
+            }}
+
+        );
+
+        return response.json({user});
+    }
+    catch (err) {
+        console.log(err)
+        return response.status(400).send({ error: 'Error creating params' });
+    }
+
+});
+
 module.exports = app => { app.use('/auth', authRoutes), app.use('/', routes) }
 
 //module.exports = app => app.use('/', routes);

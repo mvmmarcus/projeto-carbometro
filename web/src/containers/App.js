@@ -19,10 +19,6 @@ const App = () => {
 
     }, [])
 
-    /*useEffect(() => {
-        setToken(!!localStorage.getItem("user-token"))
-    }, [])*/
-
     return (
         <main className="App">
             <Routes setLogado={setLogado} logado={logado} />
