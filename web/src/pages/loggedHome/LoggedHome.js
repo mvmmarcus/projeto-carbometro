@@ -84,7 +84,7 @@ function LoggedHome() {
         <div id="app">
             <>
                 <div>
-                    <div  >
+                    <div >
                         <ModalItem/>
                     </div>
                 </div>

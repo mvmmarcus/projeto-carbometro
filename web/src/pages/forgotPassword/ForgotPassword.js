@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import api from '../../services/api';
-import { Redirect } from 'react-router';
+import { Redirect } from 'react-router-dom';
 
 import ReactDOM from 'react-dom';
 
