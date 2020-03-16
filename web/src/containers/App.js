@@ -5,8 +5,6 @@ import './App.css'
 
 const App = () => {
 
-    //const [token, setToken] = useState(false);
-
     const [logado, setLogado] = useState(false)
 
     useEffect(() => {

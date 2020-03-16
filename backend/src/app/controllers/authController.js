@@ -4,6 +4,10 @@ const jwt = require('jsonwebtoken'); //biblioteca para autenticação com token
 const crypto = require('crypto');
 const mailer = require('../../modules/mailer');
 
+const getParams = require('../utils/calculateUnity');
+
+const axios = require('axios');
+
 const authConfig = require('../../config/auth');
 const authMiddleware = require('../middlewares/auth');
 
@@ -166,7 +170,7 @@ routes.post('/reset_password', async (request, response) => {
     }
 });
 
-authRoutes.post('/insert_glucose/:id', async (request, response) => {
+/*authRoutes.post('/insert_glucose/:id', async (request, response) => {
 
     const id = request.params.id;
     const { value } = request.body;
@@ -193,7 +197,7 @@ authRoutes.post('/insert_glucose/:id', async (request, response) => {
         return response.json({ err: "erro na adição de insulina" })
     }
 
-});
+});*/
 
 routes.get('/get_glucose/:id', async (request, response) => {
 
@@ -275,37 +279,44 @@ authRoutes.put('/update_glucose/:id/:glucoseId', async (request, response) => {
 authRoutes.post('/user/add_infos/:id', async (request, response) => {
 
     const id = request.params.id;
-    const { 
-            breakfastCHO, 
-            lunchCHO, 
-            afternoonSnackCHO, 
-            dinnerCHO, 
-            born, 
-            weight, 
-            height, 
-            sexo, 
-            typeDm 
+    const {
+        breakfastCHO,
+        lunchCHO,
+        afternoonSnackCHO,
+        dinnerCHO,
+        born,
+        weight,
+        height,
+        sexo,
+        typeDm,
+        fc,
+        target_glucose
     } = request.body;
 
     try {
 
         const user = await User.updateOne(
             { _id: id },
-            { $set: 
-                { 'breakfastCHO': breakfastCHO, 
-                  'lunchCHO': lunchCHO, 
-                  'afternoonSnackCHO': afternoonSnackCHO, 
-                  'dinnerCHO': dinnerCHO,
-                  'born': born,
-                  'weight': weight,
-                  'height': height,
-                  'sexo': sexo,
-                  'typeDm': typeDm
-            }}
+            {
+                $set:
+                {
+                    'breakfastCHO': breakfastCHO,
+                    'lunchCHO': lunchCHO,
+                    'afternoonSnackCHO': afternoonSnackCHO,
+                    'dinnerCHO': dinnerCHO,
+                    'born': born,
+                    'weight': weight,
+                    'height': height,
+                    'sexo': sexo,
+                    'typeDm': typeDm,
+                    'fc': fc,
+                    'target_glucose': target_glucose
+                }
+            }
 
         );
 
-        return response.json({user});
+        return response.json({ user });
     }
     catch (err) {
         console.log(err)
@@ -314,6 +325,44 @@ authRoutes.post('/user/add_infos/:id', async (request, response) => {
 
 });
 
-module.exports = app => { app.use('/auth', authRoutes), app.use('/', routes) }
+authRoutes.post('/user/add_newFood/:id', async (request, response) => {
 
-//module.exports = app => app.use('/', routes);
+    const id = request.params.id;
+
+    const { value } = request.body;
+
+    const { carbTotal, b } = request.body;
+
+    const apiResponse = await axios.get(`http://localhost:8080/users/${id}`);
+
+    const { breakfastCHO, fc, target_glucose } = apiResponse.data.user;
+
+    try {
+
+        const user = await User.findByIdAndUpdate(id, {
+
+            $push: {
+                blood_glucose: {
+                    $each: [{ value }],
+                    $position: 0
+                }
+            }
+        })
+
+        const bolusTotal = getParams(value, carbTotal, breakfastCHO, fc, target_glucose);
+
+        console.log(bolusTotal);
+
+        return response.json(bolusTotal);
+
+    } catch (error) {
+
+        console.log(error)
+
+        return response.json({error: "Falha no Calculo"});
+
+    }
+
+});
+
+module.exports = app => { app.use('/auth', authRoutes), app.use('/', routes) }
