@@ -19,7 +19,7 @@ function LoggedHome() {
     const [newValue, setNewValue] = useState(String);
 
     const [carbTotal, setCarbTotal] = useState('');
-    const [b, setB] = useState('');
+    const [foodType, setFoodType] = useState('');
 
     const [show, setShow] = useState(false);
 
@@ -54,7 +54,7 @@ function LoggedHome() {
         const response = await authApi.post(`/user/add_newFood/${id}`, {
             value,
             carbTotal,
-            b
+            foodType
         });
 
         setValue('');
@@ -157,18 +157,17 @@ function LoggedHome() {
                             <form onSubmit={handleAddCarbTotal}>
                                 <div id="app" >
                                 <div>
-                                        <label >
-                                            Insira o Tipo da Refeição
-                                        <input
-                                                placeholder="Tipo da Refeição"
-                                                className="ModalItem-Field"
-                                                name="glucose"
-                                                id="glucose"
-                                                value={b}
-                                                onChange={e => setB(e.target.value)}
-                                            />
-                                        </label>
-                                    </div>
+                                    <label>
+                                        Tipo da Refeição:
+                                        <select className="ModalItem-Field" value={foodType} onChange={e => setFoodType(e.target.value)}>
+                                            <option value=""> Selecione </option>
+                                            <option value="breakfastCHO"> Café da Manhã </option>
+                                            <option value="lunchCHO"> Almoço </option>
+                                            <option value="afternoonSnackCHO"> Lanche da Tarde </option>
+                                            <option value="dinnerCHO"> Jantar </option>
+                                        </select>
+                                    </label>
+                                </div>
                                     <div>
                                         <label >
                                             Insira a Glicemia

@@ -329,13 +329,11 @@ authRoutes.post('/user/add_newFood/:id', async (request, response) => {
 
     const id = request.params.id;
 
-    const { value } = request.body;
-
-    const { carbTotal, b } = request.body;
+    const { value, carbTotal, foodType } = request.body;
 
     const apiResponse = await axios.get(`http://localhost:8080/users/${id}`);
 
-    const { breakfastCHO, fc, target_glucose } = apiResponse.data.user;
+    const { fc, target_glucose } = apiResponse.data.user;
 
     try {
 
@@ -349,17 +347,33 @@ authRoutes.post('/user/add_newFood/:id', async (request, response) => {
             }
         })
 
-        const bolusTotal = getParams(value, carbTotal, breakfastCHO, fc, target_glucose);
-
-        console.log(bolusTotal);
-
-        return response.json(bolusTotal);
+        if (foodType === "breakfastCHO") {
+            const { breakfastCHO } = apiResponse.data.user;
+            const bolusTotal = getParams(value, carbTotal, breakfastCHO, fc, target_glucose);
+            console.log(bolusTotal);
+            return response.json(bolusTotal);
+        } else if (foodType === "lunchCHO") {
+            const { lunchCHO } = apiResponse.data.user;
+            const bolusTotal = getParams(value, carbTotal, lunchCHO, fc, target_glucose);
+            console.log(bolusTotal);
+            return response.json(bolusTotal);
+        } else if (foodType === "afternoonSnackCHO") {
+            const { afternoonSnackCHO } = apiResponse.data.user;
+            const bolusTotal = getParams(value, carbTotal, afternoonSnackCHO, fc, target_glucose);
+            console.log(bolusTotal);
+            return response.json(bolusTotal);
+        } else if (foodType === "dinnerCHO") {
+            const { dinnerCHO } = apiResponse.data.user;
+            const bolusTotal = getParams(value, carbTotal, dinnerCHO, fc, target_glucose);
+            console.log(bolusTotal);
+            return response.json(bolusTotal);
+        }
 
     } catch (error) {
 
         console.log(error)
 
-        return response.json({error: "Falha no Calculo"});
+        return response.json({ error: "Falha no Calculo" });
 
     }
 
