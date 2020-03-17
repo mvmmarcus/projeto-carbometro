@@ -7,4 +7,6 @@ config
 backend/src/app/models/Task.js
 backend/src/app/models/Glucose.js
 backend/src/index.js
+index.js
+src/index.js
 C:\Users\marcu\Documents\Carbometro\backend\src\index.js
