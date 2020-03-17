@@ -4,6 +4,10 @@ const jwt = require('jsonwebtoken'); //biblioteca para autenticação com token
 const crypto = require('crypto');
 const mailer = require('../../modules/mailer');
 
+const Food = require('../models/Food');
+
+const getFoods = require('../../alimentos/index')
+
 const getParams = require('../utils/calculateUnity');
 
 const axios = require('axios');
@@ -36,7 +40,7 @@ routes.post('/register', async (request, response) => {
         if (await User.findOne({ email }))
             return response.status(400).send({ error: 'User already exists' }); //se, email já existe, retorna(response) mensagem que já existe cadastrado
 
-        const user = await User.create(request.body); //criando usuário a partir do que foi inserido no front end pelo usuário
+        //criando usuário a partir do que foi inserido no front end pelo usuário
 
         user.password = undefined; //removendo senha do BD apos criação(segurança) 
 
@@ -374,6 +378,30 @@ authRoutes.post('/user/add_newFood/:id', async (request, response) => {
         console.log(error)
 
         return response.json({ error: "Falha no Calculo" });
+
+    }
+
+});
+
+routes.get('/foods', async (request, response) => {
+
+    try {
+
+        const fods = await getFoods();
+
+        fods.map(item => {
+            console.log(item)
+        })
+
+        const foods = await Food.create(fods);
+        
+        console.log(foods)
+
+        return response.json({foods})
+    }
+    catch (err) {
+        console.log(err)
+        return response.json({ err: "falha na busca dos alimentos" })
 
     }
 
