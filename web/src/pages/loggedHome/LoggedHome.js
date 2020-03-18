@@ -13,7 +13,7 @@ import './LoggedHome.css'
 
 function LoggedHome() {
 
-    const [glucoses, setGlucoses] = useState([]);
+    const [glucoses, setGlucoses] = useState([""]);
     const [value, setValue] = useState(String);
     const [roda, setRoda] = useState(Boolean);
     const [newValue, setNewValue] = useState(String);
@@ -26,8 +26,27 @@ function LoggedHome() {
     const [showGlucoses, setShowGlucoses] = useState(false);
     const [showCalculate, setShowCalculate] = useState(false);
 
+    const [foods, setFoods] = useState([]);
+    const [foodName, setFoodName] = useState("");
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    async function loadFoods() {
+
+        console.log(foodName)
+
+        const response = await api.get('/food', {
+            params: {
+                food: foodName
+            }
+        });
+
+        console.log(response.data.foods); 
+
+        setFoods(response.data.foods);
+
+    }
 
     const id = getId();
 
@@ -121,6 +140,7 @@ function LoggedHome() {
                         <i className="material-icons" >build</i>
                     </button>
                 </div>
+            
                 {
                     showGlucoses ? (
                         <div>
@@ -141,12 +161,31 @@ function LoggedHome() {
                             </div>
                         </div>
                     ) : (
-
+                            <>
                             <header>
                                 <button onClick={() => setShowGlucoses(true)} >Listar Glicemias</button>
                                 <button onClick={() => setShowCalculate(true)} >Nova refeição</button>
                             </header>
-
+                            <div>
+                                <input
+                                placeholder="buscar alimento" 
+                                autoCapitalize="words" 
+                                value={foodName} 
+                                onChange={e => setFoodName(e.target.value) } />
+                            </div>
+                            <button onClick={loadFoods} >Buscar</button>
+                            <div>
+                                {
+                                    foods.map(food => (
+                                    <>
+                                    <h1>Nome do Alimento: {food.name}</h1>
+                                    <h2>Peso: {food.unitGram}</h2>
+                                    <h3>Carboidratos por Grama: {food.cho}</h3>
+                                    </>
+                                    ))
+                                }
+                            </div>
+                            </>
                         )
                 }
             </div>
@@ -156,18 +195,18 @@ function LoggedHome() {
                         <>
                             <form onSubmit={handleAddCarbTotal}>
                                 <div id="app" >
-                                <div>
-                                    <label>
-                                        Tipo da Refeição:
+                                    <div>
+                                        <label>
+                                            Tipo da Refeição:
                                         <select className="ModalItem-Field" value={foodType} onChange={e => setFoodType(e.target.value)}>
-                                            <option value=""> Selecione </option>
-                                            <option value="breakfastCHO"> Café da Manhã </option>
-                                            <option value="lunchCHO"> Almoço </option>
-                                            <option value="afternoonSnackCHO"> Lanche da Tarde </option>
-                                            <option value="dinnerCHO"> Jantar </option>
-                                        </select>
-                                    </label>
-                                </div>
+                                                <option value=""> Selecione </option>
+                                                <option value="breakfastCHO"> Café da Manhã </option>
+                                                <option value="lunchCHO"> Almoço </option>
+                                                <option value="afternoonSnackCHO"> Lanche da Tarde </option>
+                                                <option value="dinnerCHO"> Jantar </option>
+                                            </select>
+                                        </label>
+                                    </div>
                                     <div>
                                         <label >
                                             Insira a Glicemia

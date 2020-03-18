@@ -8,6 +8,7 @@ function GlucoseItem({ glucose, onDelete, save, onChange, value }) {
 
     const [editar, setEditar] = useState(false)
 
+
     return (
         <div>
             <div className="glucoses-info">

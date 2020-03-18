@@ -393,11 +393,11 @@ routes.get('/foods', async (request, response) => {
             console.log(item)
         })
 
-        const foods = await Food.create(fods);
+        const foodss = await Food.create(fods);
         
-        console.log(foods)
+        console.log(foodss)
 
-        return response.json({foods})
+        return response.json({foodss})
     }
     catch (err) {
         console.log(err)
@@ -406,5 +406,22 @@ routes.get('/foods', async (request, response) => {
     }
 
 });
+
+routes.get('/food', async (request, response) => {
+    
+    const { food } = request.query;
+
+    const foods = await Food.find({
+
+        name: {
+            $in: food
+        }
+            
+    });
+
+    return response.json({ foods })
+
+});
+
 
 module.exports = app => { app.use('/auth', authRoutes), app.use('/', routes) }
