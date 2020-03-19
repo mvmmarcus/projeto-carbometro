@@ -13,6 +13,6 @@ module.exports = function getParams(glicemia, carbTotal, bolusRefeicao, fc, glic
     const correcao = ((glucose - gAlvo) / ftC);
 
     const bolusTotal = (bolusAlimento + correcao);
-
+  
     return bolusTotal;
 }

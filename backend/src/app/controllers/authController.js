@@ -383,43 +383,11 @@ authRoutes.post('/user/add_newFood/:id', async (request, response) => {
 
 });
 
-routes.get('/foods', async (request, response) => {
-
-    try {
-
-        const fods = await getFoods();
-
-        fods.map(item => {
-            console.log(item)
-        })
-
-        const foodss = await Food.create(fods);
-        
-        console.log(foodss)
-
-        return response.json({foodss})
-    }
-    catch (err) {
-        console.log(err)
-        return response.json({ err: "falha na busca dos alimentos" })
-
-    }
-
-});
-
 routes.get('/food', async (request, response) => {
-    
-    const { food } = request.query;
 
-    const foods = await Food.find({
+    const foods = await Food.find();
 
-        name: {
-            $in: food
-        }
-            
-    });
-
-    return response.json({ foods })
+    return response.json( foods )
 
 });
 

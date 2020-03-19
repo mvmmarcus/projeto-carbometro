@@ -26,28 +26,31 @@ function LoggedHome() {
     const [showGlucoses, setShowGlucoses] = useState(false);
     const [showCalculate, setShowCalculate] = useState(false);
 
-    const [foods, setFoods] = useState([]);
-    const [foodName, setFoodName] = useState("");
+
+    const [filter, setFilter] = useState("");
+    const [list, setList] = useState([]);
+
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     async function loadFoods() {
 
-        console.log(foodName)
-
-        const response = await api.get('/food', {
-            params: {
-                food: foodName
-            }
-        });
-
-        console.log(response.data.foods); 
-
-        setFoods(response.data.foods);
+        await api.get('/food')
+            .then(responseData => {
+                console.log(responseData.data)
+                setList(responseData.data)
+            })
 
     }
 
+    useEffect(() => {
+
+        loadFoods();
+    },
+
+        []);
+        
     const id = getId();
 
     useEffect(() => {
@@ -88,21 +91,6 @@ function LoggedHome() {
 
     }
 
-    /*async function handleAddGlucose(e) {
-        e.preventDefault();
-
-        const response = await authApi.post(`/insert_glucose/${id}`, {
-            value
-        });
-
-        setValue('');
-
-        setGlucoses([...glucoses, response.data]);
-
-        setRoda(true)
-
-    }*/
-
     async function updateTask(glucoseId) {
 
         await authApi.put(`/update_glucose/${id}/${glucoseId}`, {
@@ -131,7 +119,6 @@ function LoggedHome() {
 
     }
 
-
     return (
         <>
             <div id="app" >
@@ -140,7 +127,7 @@ function LoggedHome() {
                         <i className="material-icons" >build</i>
                     </button>
                 </div>
-            
+
                 {
                     showGlucoses ? (
                         <div>
@@ -162,36 +149,47 @@ function LoggedHome() {
                         </div>
                     ) : (
                             <>
-                            <header>
-                                <button onClick={() => setShowGlucoses(true)} >Listar Glicemias</button>
-                                <button onClick={() => setShowCalculate(true)} >Nova refeição</button>
-                            </header>
-                            <div>
-                                <input
-                                placeholder="buscar alimento" 
-                                autoCapitalize="words" 
-                                value={foodName} 
-                                onChange={e => setFoodName(e.target.value) } />
-                            </div>
-                            <button onClick={loadFoods} >Buscar</button>
-                            <div>
-                                {
-                                    foods.map(food => (
-                                    <>
-                                    <h1>Nome do Alimento: {food.name}</h1>
-                                    <h2>Peso: {food.unitGram}</h2>
-                                    <h3>Carboidratos por Grama: {food.cho}</h3>
-                                    </>
-                                    ))
-                                }
-                            </div>
+                                <header>
+                                    <button onClick={() => setShowGlucoses(true)} >Listar Glicemias</button>
+                                    <button onClick={() => setShowCalculate(true)} >Nova refeição</button>
+                                </header>
+                                <div>
+                                    <input
+                                        placeholder="buscar alimento"
+                                        value={filter}
+                                        onChange={(e) => setFilter(e.target.value)} />
+                                </div>
+                                <div>
+                                    <ul>
+                                        {
+                                            !showCalculate && (
+                                                list.map(food => {
+                                                    if (filter.length !== 0) {
+                                                        const name = food.name;
+                                                        if (name.toLowerCase().startsWith(filter.toLowerCase())) {
+                                                            return (
+                                                                <li>
+                                                                    <h2 id="foodName" >{food.name}</h2>
+                                                                </li>
+                                                            )
+                                                        } else {
+                                                            return null;
+                                                        }
+                                                    }
+                                                    return null
+                                                })
+                                            )
+                                        }
+                                    </ul>
+
+                                </div>
                             </>
                         )
                 }
             </div>
             <div>
                 {
-                    showCalculate && (
+                    showCalculate && !showGlucoses && (
                         <>
                             <form onSubmit={handleAddCarbTotal}>
                                 <div id="app" >

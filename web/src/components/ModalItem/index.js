@@ -368,7 +368,7 @@ export default function ModalItem({ show, handleClose, setShow }) {
                                 </TabPane>
                                 <TabPane tabId="2">
                                     <h4 className="textModal" >Insira seus parâmetros para Bolus</h4>
-                                    <form onSubmit={handleSubmitInfos}>
+                                    <form >
                                         <div>
                                             <label>
                                                 Café da manhã (Bolus):
@@ -447,12 +447,12 @@ export default function ModalItem({ show, handleClose, setShow }) {
                                                 />
                                             </label>
                                         </div>
-                                        <button className="ModalSave-Btn" type="submit">Salvar</button>
                                     </form>
                                 </TabPane>
                             </TabContent>
                         </Modal.Body>
                         <Modal.Footer className="Modal-footer">
+                            <Button onClick={handleSubmitInfos} className="ModalSave-Btn" >Salvar</Button>
                             <Button variant="danger" onClick={close} > Cancelar </Button>
                         </Modal.Footer>
                     </Modal>

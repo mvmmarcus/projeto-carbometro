@@ -37,6 +37,7 @@ function GlucoseItem({ glucose, onDelete, save, onChange, value }) {
                     {glucose.value >= 80 && glucose.value <= 140 ? (
                         <div className="Uni-value">
                             <h1>{glucose.value} mg/dl</h1>
+                            <strong> Normal </strong>
                         </div>
                     ) : ('')}
                     {glucose.value > 180 && glucose.value !== 200 && glucose.value !== 300 && glucose.value !== 400 ? (
