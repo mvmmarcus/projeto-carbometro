@@ -163,6 +163,10 @@ routes.post('/reset_password', async (request, response) => {
         if (now > user.passwordResetExpires) // validando se o token não ta expirado
             return response.status(400).send({ error: 'Token expired, generate new one' });
 
+        if (newPassword.length < 8 ) {
+            return response.status(400).send({ error: 'Caracters number insuficient' });
+        }
+
         user.password = newPassword; // atualizando no banco o novo password
 
         await user.save(); // nao segue antes de salvar o user

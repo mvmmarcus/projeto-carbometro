@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from "react";
 import api from '../../services/api';
 import { Redirect } from 'react-router-dom';
+import ReactDOM from 'react-dom';
 
 import './ResetPassword.css'
 
@@ -24,7 +25,32 @@ const ResetPassword = () => {
                 console.log(redirect)
                 console.log(response)
             })
-            .catch(error => console.log(error))
+            .catch(err => {
+                console.log(err.err);
+
+                if (email.length < 5) {
+                    const element = <div className="alert alert-danger" role="alert">
+                        Email Inválido !
+                                </div>
+
+                    ReactDOM.render(element, document.getElementById("boot"));
+                } else if (token.length < 5) {
+                    const element = <div className="alert alert-danger" role="alert">
+                        Token Inválido ! 
+                                </div>
+
+                    ReactDOM.render(element, document.getElementById("boot"));
+                } else if (newPassword.length < 8) {
+                    const element = <div className="alert alert-danger" role="alert">
+                        A senha precisa ter, no mínimo, 8 caracteres !
+                                </div>
+
+                    ReactDOM.render(element, document.getElementById("boot"));
+                }
+
+                
+            });
+
     }
 
     if (redirect) {
@@ -37,6 +63,8 @@ const ResetPassword = () => {
                 <h1>Preencha as informações abaixo</h1>
                 <p>Ps: no campo token, informe o token que recebeu por email</p>
                 <form onSubmit={handleSubmit}>
+                    <div id="boot" >
+                    </div>
                     <div>
                         <label id="inputTitle" htmlFor="email" ></label>
                         <input

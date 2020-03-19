@@ -24,7 +24,7 @@ const ForgotPassword = () => {
             .catch(error => {
                 console.log(error);
 
-                const element = <div className="alert alert-danger" role="alert">
+                const element = <div id="forgot_password_error" className="alert alert-danger" role="alert">
                     Email Inválido!
                                 </div>
 
@@ -41,8 +41,8 @@ const ForgotPassword = () => {
         <div id="app">
             <aside>
                 <h1>Insira o email de cadastro</h1>
-                <p>Enviaremos um codigo de verificação em seu email</p>
-                <form onSubmit={handleSubmit}>
+                <p>Enviaremos um código de verificação em seu email</p>
+                <form className="forgot_pass_form" onSubmit={handleSubmit}>
                     <div id="boot" >
                     </div>
                     <div>

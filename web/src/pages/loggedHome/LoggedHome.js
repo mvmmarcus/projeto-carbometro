@@ -4,8 +4,6 @@ import { getId } from '../../services/auth';
 import authApi from '../../services/authApi';
 import api from '../../services/api';
 
-import '../../pages/login/Login.css'
-
 import GlucoseItem from '../../components/GlucoseItem/';
 import ModalItem from '../../components/ModalItem/';
 
@@ -50,7 +48,7 @@ function LoggedHome() {
     },
 
         []);
-        
+
     const id = getId();
 
     useEffect(() => {
@@ -129,6 +127,22 @@ function LoggedHome() {
                 </div>
 
                 {
+                    !showCalculate && !showGlucoses && (
+                        <div className="Logged-Home-Functions">
+
+                            <button onClick={() => setShowCalculate(true)} className="Redirect-Btn">
+                                <h1>Nova refeição</h1>
+                            </button>
+
+                            <button onClick={() => setShowGlucoses(true)} className="Redirect-Btn">
+                                <h1>Relatório de glicemias</h1>
+                            </button>
+
+                        </div>
+                    )
+                }
+
+                {
                     showGlucoses ? (
                         <div>
                             <div>
@@ -149,16 +163,7 @@ function LoggedHome() {
                         </div>
                     ) : (
                             <>
-                                <header>
-                                    <button onClick={() => setShowGlucoses(true)} >Listar Glicemias</button>
-                                    <button onClick={() => setShowCalculate(true)} >Nova refeição</button>
-                                </header>
-                                <div>
-                                    <input
-                                        placeholder="buscar alimento"
-                                        value={filter}
-                                        onChange={(e) => setFilter(e.target.value)} />
-                                </div>
+
                                 <div>
                                     <ul>
                                         {
@@ -207,7 +212,7 @@ function LoggedHome() {
                                     </div>
                                     <div>
                                         <label >
-                                            Insira a Glicemia
+                                            Insira a Glicemia:
                                         <input
                                                 placeholder="Glicemia *"
                                                 className="ModalItem-Field"
@@ -220,7 +225,7 @@ function LoggedHome() {
                                     </div>
                                     <div>
                                         <label>
-                                            Carb Total da Refeição :
+                                            Carb Total da Refeição:
                                         <input
                                                 placeholder="Carb Total (g)"
                                                 className="ModalItem-Field"
@@ -231,7 +236,52 @@ function LoggedHome() {
                                             />
                                         </label>
                                     </div>
-                                    <button type="submit" >Salvar</button>
+                                    <div>
+                                        <label >
+                                            Busque pelo alimento:
+                                            <input
+                                                placeholder="Buscar alimento"
+                                                className="ModalItem-Field"
+                                                value={filter}
+                                                onChange={(e) => setFilter(e.target.value)}
+                                            />
+                                        </label>
+                                        <ul>
+                                            {
+                                                list.map(food => {
+                                                    if (filter.length !== 0) {
+                                                        const name = food.name;
+                                                        if (name.toLowerCase().startsWith(filter.toLowerCase())) {
+                                                            return (
+                                                                <div className="Table">
+                                                                    <table className="table table-hover">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th style={{ textAlign: 'center', fontSize: 18, backgroundColor: 'rgba(233, 72, 8, 0.959)' }}>Nome</th>
+                                                                                <th style={{ textAlign: 'center', fontSize: 18, backgroundColor: 'rgba(233, 72, 8, 0.959)' }}>Medida</th>
+                                                                                <th style={{ textAlign: 'center', fontSize: 18, backgroundColor: 'rgba(233, 72, 8, 0.959)' }}>g ou ml</th>
+                                                                                <th style={{ textAlign: 'center', fontSize: 18, backgroundColor: 'rgba(233, 72, 8, 0.959)' }}>CHO</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr style={{ textAlign: 'center', backgroundColor: 'rgba(223, 221, 221, 0.959)' }}>
+                                                                                <td>{food.name}</td><td>{food.measure}</td><td>{food.unitGram}</td><td>{food.cho}</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            )
+                                                        } else {
+                                                            return null;
+                                                        }
+                                                    }
+                                                    return null
+                                                })
+
+                                            }
+                                        </ul>
+                                    </div>
+                                    <button type="submit" className="save-food" >Adicionar Refeição</button>
                                 </div>
                             </form>
 
