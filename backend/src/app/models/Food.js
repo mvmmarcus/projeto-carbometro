@@ -6,11 +6,15 @@ const FoodSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    gram: {
+    measure: {
+        type: String,
+        required: true
+    },
+    unitGram: {
         type: Number,
         required: true
     },
-    carb_per_gram: {
+    cho: {
         type: Number,
         required: true
     }

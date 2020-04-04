@@ -15,7 +15,7 @@ const axios = require('axios');
 const authConfig = require('../../config/auth');
 const authMiddleware = require('../middlewares/auth');
 
-const User = require('../models/User');
+const User = require('../models/User.js');
 
 const { Router } = require('express');
 
@@ -35,15 +35,16 @@ routes.get('/', (request, response) => {
 
 routes.post('/register', async (request, response) => {
     const { email } = request.body; //pegando o email que foi inserido no front pelo usuário
-
+    console.log(email)
     try {
         if (await User.findOne({ email }))
             return response.status(400).send({ error: 'User already exists' }); //se, email já existe, retorna(response) mensagem que já existe cadastrado
 
         //criando usuário a partir do que foi inserido no front end pelo usuário
 
-        user.password = undefined; //removendo senha do BD apos criação(segurança) 
+        const user = await User.create(request.body);
 
+        user.password = undefined; //removendo senha do BD apos criação(segurança) 
         return response.json({
             user,
             token: generateToken({ id: user.id })
@@ -178,35 +179,6 @@ routes.post('/reset_password', async (request, response) => {
     }
 });
 
-/*authRoutes.post('/insert_glucose/:id', async (request, response) => {
-
-    const id = request.params.id;
-    const { value } = request.body;
-
-    try {
-
-        const user = await User.findByIdAndUpdate(id, {
-
-            $push: {
-                blood_glucose: {
-                    $each: [{ value }],
-                    $position: 0
-                }
-            }
-        })
-
-        const { blood_glucose } = await User.findById(id);
-
-        return response.json(blood_glucose)
-
-    }
-    catch (err) {
-        console.log(err)
-        return response.json({ err: "erro na adição de insulina" })
-    }
-
-});*/
-
 routes.get('/get_glucose/:id', async (request, response) => {
 
     const id = request.params.id;
@@ -333,66 +305,180 @@ authRoutes.post('/user/add_infos/:id', async (request, response) => {
 
 });
 
-authRoutes.post('/user/add_newFood/:id', async (request, response) => {
+authRoutes.post('/user/add_newFood/:userId', async (request, response) => {
 
-    const id = request.params.id;
+    const userId = request.params.userId;
 
-    const { value, carbTotal, foodType } = request.body;
+    const { value, totalCho, foodType, refeicoes } = request.body;
 
-    const apiResponse = await axios.get(`http://localhost:8080/users/${id}`);
+    const apiResponse = await axios.get(`http://localhost:8080/users/${userId}`);
 
-    const { fc, target_glucose } = apiResponse.data.user;
+    const { fc, target_glucose, breakfastCHO } = apiResponse.data.user;
 
-    try {
+    if (foodType === "breakfastCHO") {
 
-        const user = await User.findByIdAndUpdate(id, {
+        console.log(value)
+        console.log(totalCho)
+        console.log(refeicoes)
+        
+        const bolusTotal = getParams(value, totalCho, breakfastCHO, fc, target_glucose);
+        console.log(bolusTotal)
 
-            $push: {
-                blood_glucose: {
-                    $each: [{ value }],
-                    $position: 0
+        try {
+
+            const user = await User.findByIdAndUpdate(userId, {
+
+                $push: {
+                    addFoods: {
+                        $each: [{ 
+                            blood_glucose: [{
+                                 value: value
+                            }],
+                            food: refeicoes,
+                            totalChoFood: totalCho,
+                            totalInsulinFood: bolusTotal 
+                        }],
+                        $position: 0
+                    }
                 }
-            }
-        })
+            })
 
-        if (foodType === "breakfastCHO") {
-            const { breakfastCHO } = apiResponse.data.user;
-            const bolusTotal = getParams(value, carbTotal, breakfastCHO, fc, target_glucose);
-            console.log(bolusTotal);
-            return response.json(bolusTotal);
-        } else if (foodType === "lunchCHO") {
-            const { lunchCHO } = apiResponse.data.user;
-            const bolusTotal = getParams(value, carbTotal, lunchCHO, fc, target_glucose);
-            console.log(bolusTotal);
-            return response.json(bolusTotal);
-        } else if (foodType === "afternoonSnackCHO") {
-            const { afternoonSnackCHO } = apiResponse.data.user;
-            const bolusTotal = getParams(value, carbTotal, afternoonSnackCHO, fc, target_glucose);
-            console.log(bolusTotal);
-            return response.json(bolusTotal);
-        } else if (foodType === "dinnerCHO") {
-            const { dinnerCHO } = apiResponse.data.user;
-            const bolusTotal = getParams(value, carbTotal, dinnerCHO, fc, target_glucose);
-            console.log(bolusTotal);
-            return response.json(bolusTotal);
+            return response.json(user);
+
+        } catch (err) {
+            console.log('deu erro')
+            console.log(err)
+
+            return response.status(400).send({ error: 'Error creating new food' });
         }
 
-    } catch (error) {
+    } else if (foodType === "lunchCHO") {
+        const { lunchCHO } = apiResponse.data.user;
+        const bolusTotal = getParams(value, totalCho, lunchCHO, fc, glucoseTarget);
+        console.log(bolusTotal);
+        console.log(totalCho)
+        
+        try {
 
-        console.log(error)
+            const user = await User.findByIdAndUpdate(userId, {
 
-        return response.json({ error: "Falha no Calculo" });
+                $push: {
+                    blood_glucose: {
+                        $each: [{ value }],
+                        $position: 0
+                    },
+                    addFoods: {
+                        $each: [{ 
+                            food: refeicoes,
+                            totalChoFood: totalCho,
+                            totalInsulinFood: bolusTotal }],
+                        $position: 0
+                    }
+                }
+            })
+
+        } catch (err) {
+            console.log('deu erro')
+            console.log(err)
+
+            return response.status(400).send({ error: 'Error creating new food' });
+        }
+
+        return response.json({ value, totalCho, lunchCHO, fc, glucoseTarget, bolusTotal, refeicoes });
+
+    } else if (foodType === "afternoonSnackCHO") {
+        const { afternoonSnackCHO } = apiResponse.data.user;
+        const bolusTotal = getParams(value, totalCho, afternoonSnackCHO, fc, glucoseTarget);
+        console.log(bolusTotal);
+        console.log(totalCho)
+        
+        try {
+
+            const user = await User.findByIdAndUpdate(userId, {
+
+                $push: {
+                    blood_glucose: {
+                        $each: [{ value }],
+                        $position: 0
+                    },
+                    addFoods: {
+                        $each: [{ 
+                            food: refeicoes,
+                            totalChoFood: totalCho,
+                            totalInsulinFood: bolusTotal }],
+                        $position: 0
+                    }
+                }
+            })
+
+        } catch (err) {
+            console.log('deu erro')
+            console.log(err)
+
+            return response.status(400).send({ error: 'Error creating new food' });
+        }
+
+        return response.json({ value, totalCho, afternoonSnackCHO, fc, glucoseTarget, bolusTotal, refeicoes });
+
+    } else if (foodType === "dinnerCHO") {
+        const { dinnerCHO } = apiResponse.data.user;
+        const bolusTotal = getParams(value, totalCho, dinnerCHO, fc, glucoseTarget);
+        console.log(bolusTotal);
+        console.log(totalCho)
+        
+        try {
+
+            const user = await User.findByIdAndUpdate(userId, {
+
+                $push: {
+                    blood_glucose: {
+                        $each: [{ value }],
+                        $position: 0
+                    },
+                    addFoods: {
+                        $each: [{ 
+                            food: refeicoes,
+                            totalChoFood: totalCho,
+                            totalInsulinFood: bolusTotal }],
+                        $position: 0
+                    }
+                }
+            })
+
+        } catch (err) {
+            console.log('deu erro')
+            console.log(err)
+
+            return response.status(400).send({ error: 'Error creating new food' });
+        }
+
+        return response.json({ value, totalCho, dinnerCHO, fc, glucoseTarget, bolusTotal, refeicoes });
 
     }
 
 });
 
-routes.get('/food', async (request, response) => {
+routes.get('/foods', async (request, response) => {
 
     const foods = await Food.find();
 
     return response.json( foods )
 
+});
+
+routes.get('/food/:id', async (request, response) => {
+
+    const id = request.params.id;
+    try {
+
+        const food = await Food.findById(id)
+
+        return response.json(food)
+    }
+    catch (err) {
+        console.log(err)
+        return response.json({ err: "Erro na exibição das glicemias" })
+    }
 });
 
 

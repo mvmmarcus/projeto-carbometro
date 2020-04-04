@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true 
+        required: true
     },
     email: {
         type: String,
@@ -29,30 +29,52 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: Date.now // pega a data de criação
     },
-    blood_glucose: [{
-        value: {
-            type: Number, // post
-            required: true
-        },
-        createdAt: { // post
-            type: Date,
-            default: Date.now
-        },
-        updatedAt: { // metodo put
-            type: Date,
-        }
-    }],
-    unity: [{ 
-        value: {
+    addFoods: [{
+        blood_glucose: [{
+            value: {
+                type: Number, // post
+                required: true
+            },
+            createdAt: { // post
+                type: Date,
+                default: Date.now
+            },
+            updatedAt: { // metodo put
+                type: Date,
+            }
+        }],
+        food: [{
+            name: {
+                type: String,
+                required: true
+            },
+            measure: {
+                type: String,
+                required: true
+            },
+            addGram: {
+                type: Number,
+                required: true
+            },
+            choCal: {
+                type: Number,
+                required: true
+            },
+            createdAt: {
+                type: Date,
+                default: Date.now
+            },
+            updatedAt: {
+                type: Date
+            },
+        }],
+        totalChoFood: {
             type: Number,
             required: true
         },
-        createdAt: {
-            type: Date,
-            default: Date.now
-        },
-        updatedAt: {
-            type: Date,
+        totalInsulinFood: {
+            type: Number,
+            required: true
         }
     }],
     born: {
@@ -90,7 +112,7 @@ const UserSchema = new mongoose.Schema({
     }
 });
 
-UserSchema.pre('save', async function(next) { //realizar ação antes de salvar usuário
+UserSchema.pre('save', async function (next) { //realizar ação antes de salvar usuário
     const hash = await bcrypt.hash(this.password, 10); //padrão para encriptar password
     this.password = hash;
 
