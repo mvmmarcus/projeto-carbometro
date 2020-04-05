@@ -1,34 +1,47 @@
-.Register-Field {
-    border: none;
-    background: rgba(0, 0, 0, .25);
-    color: #fdfdfd;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    padding: 1rem;
-    font-size: 1.2rem;
-    border-radius: 7px;
-    width: 600px;
-    transition: all .1s linear;
+.register-container {
+    width: 100%; /* esses item são pensados na responsividade */
+    max-width: 1120px; /* esses item são pensados na responsividade */
+    height: 100vh;
+    margin: 0 auto;
+
+    display: flex; /*faz com que os intems fiquem um ao lado do outro*/
+    align-items: center; /*centraliza verticalmente*/
+    justify-content: center; /*centraliza horizontalmente*/
 }
 
-#inputTitle {
-    font-size: 1.2rem;
+.register-container .content {
+    width: 100%;
+    padding: 96px;
+    background: #f0f0f5;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.Register-Field:focus {
-    box-shadow: 0 4px 4px rgba(0, 0, 0, .5);
-    outline: none;
+.register-container .content section {
+    width: 100%;
+    max-width: 380px;
 }
 
-.Register-Btn {
-    background: #00cc99;
-    color: #fdfdfd;
-    padding: .5rem 2rem;
-    border: none;
-    border-radius: 5px;
-    margin-top: 2rem;
+.register-container .content section h1 {
+    margin: 50px 0 24px;
+    font-size: 24px;
 }
 
-.Register-Btn:hover {
-    cursor: pointer;
+.register-container .content section p {
+    font-size: 18px;
+    color: #737380;
+    line-height: 24px;
+}
+
+.register-container .content form {
+    width: 100%;
+    max-width: 450px;
+}
+
+.register-container .content form input {
+    margin-top: 8px;
 }

@@ -1,47 +1,30 @@
-.Login-Field {
-    border: none;
-    background: rgba(0, 0, 0, .25);
-    color: #fdfdfd;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    padding: 1rem;
-    font-size: 1.2rem;
-    border-radius: 7px;
-    width: 600px;
-    transition: all .1s linear;
+.logon-container {
+    width: 100%; /* esses item são pensados na responsividade */
+    max-width: 1120px; /* esses item são pensados na responsividade */
+    height: 100vh;
+    margin: 0 auto;
+
+    display: flex; /*faz com que os intems fiquem um ao lado do outro*/
+    align-items: center; /*centraliza verticalmente*/
+    justify-content: center; /*centraliza horizontalmente*/
 }
 
-#inputTitle {
-    font-size: 1.2rem;
+.logon-container section.form {
+    width: 100%;
+    max-width: 350px;
+    margin-right: 30px; /* distanciamento da logo */
 }
 
-.Login-Field:focus {
-    box-shadow: 0 4px 4px rgba(0, 0, 0, .5);
-    outline: none;
+.logon-container section.form form {
+    margin-top: 50px;
 }
 
-.Login-Btn {
-    background: #00cc99;
-    color: #fdfdfd;
-    padding: .5rem 2rem;
-    border: none;
-    border-radius: 5px;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+.login-logo {
+    width: 300px;
+    height: 300px;
 }
 
-.Login-Btn:hover {
-    cursor: pointer;
-}
-
-.forgot_password {
-    color: white;
-}
-
-#app {
-    text-align: center;
-}
-
-#app h1 {
-    color: rgba(233, 72, 8, 0.959);
+.logon-container section.form form h1 {
+    font-size: 24px;
+    margin-bottom: 24px;
 }
