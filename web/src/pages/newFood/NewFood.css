@@ -1,0 +1,138 @@
+.new-food-container {
+    width: 100%; /* importante para responsividade */
+    max-width: 1180px; /* aqui é onde eu delimito realmente o width desse container */
+    padding: 0 30px;
+    margin: 32px auto;
+
+}
+
+.content {
+    width: 100%;
+    padding-bottom: 40px;
+    margin: 32px auto;
+    background: #f0f0f5;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    
+    display:  flex;
+    flex-direction: 1fr 1fr;
+    text-align: center;
+    justify-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.new-food-container .content .selected-foods {
+    width: 100%;
+    max-width: 450px;
+    margin: 64px 32px 32px;
+    background: #fff;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+
+.new-food-container header {
+    display: flex;
+    align-items: center; /* alinha verticalmente*/
+}
+
+.new-food-container header img {
+    height: 64px;
+}
+
+.new-food-container header button {
+    height: 60px;
+    width: 60px;
+    border-radius: 4px;
+    border: 1px solid #dcdce6;
+    background: transparent;
+    margin-left: auto;
+    transition: border-color 0.2s;
+}
+
+.new-food-container header button:hover {
+    border-color: #999;
+}
+
+.new-food-container section {
+    text-align: center;
+    width: 100%;
+    max-width: 450px;
+}
+
+.new-food-container section h1 {
+    margin: 64px 0 32px;
+    font-size: 32px;
+}
+
+.new-food-container section p {
+    font-size: 18px;
+    color: #737380;
+    line-height: 32px;
+}
+
+.new-food-container form {
+    width: 100%;
+    max-width: 450px;
+    position: relative;
+}
+
+.new-food-container form input,
+.new-food-container form label,
+.new-food-container form select {
+    margin-top: 8px;
+}
+
+.new-food-container form .listbox {
+    height: 100%;
+    max-height: 100px;
+    text-align: left;
+    display: block;
+    background: #fff;
+    border: 1px solid #D45812;
+    padding: 8px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.new-food-container form .search-group {
+    width: 100%;
+    position: relative;
+}
+
+.new-food-container form .search-group button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10px;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+.new-food-container form .listbox ul {
+    list-style: none;
+}
+
+.new-food-container form .listbox ul li strong {
+    margin-left: 20px;
+    font-size: 18px;
+}
+
+.new-food-container form .listbox ul li p {
+    margin-left: 20px;
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: 400;
+}
+
+.listbox-container {
+    position: absolute;
+    background: #fff;
+    width: 100%;
+    max-height: 150px;
+    overflow-y: scroll;
+    box-shadow: 0 0 100px #fff;
+}

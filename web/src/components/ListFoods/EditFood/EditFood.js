@@ -1,3 +1,28 @@
+import React from 'react';
+import '../../ModalItem/ModalItem.css';
+
+export default function EditFood({ editFoods }) {
+
+    return (
+
+        editFoods.map((food) => (
+            <>
+                <div key={food._id} >
+                    <h1>{food.name}</h1>
+                    <h3>{food.choCal}</h3>
+                </div>
+
+            </>
+        ))
+
+    )
+
+}
+
+
+
+
+/*
 import React, { useState } from 'react';
 import '../../ModalItem/ModalItem.css';
 
@@ -127,3 +152,4 @@ export default function EditFood(props) {
         </>
     )
 }
+*/

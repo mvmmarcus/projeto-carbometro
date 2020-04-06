@@ -40,7 +40,7 @@ const Register = () => {
         <div className="register-container">
             <div className="content">
                 <section>
-                    <img src={logoImg} alt="" />
+                    <img src={logoImg} alt="Logo Carb" />
 
                     <h1>Cadastre-se</h1>
                     <p>Faça seu cadastro e tenha controle da sua diabete!</p>

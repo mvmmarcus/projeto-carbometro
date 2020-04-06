@@ -14,13 +14,13 @@ export const setId = (userId) => {
 export const getId = () => sessionStorage.getItem("user-id");
 
 export const setFoodId = (foodId) => {
-  sessionStorage.setItem("food-id", foodId);
+  localStorage.setItem("food-id", foodId);
 };
 
-export const getFoodId = () => sessionStorage.getItem("food-id");
+export const getFoodId = () => localStorage.getItem("food-id");
 
 export const setRemoveFood = (foodId) => {
-  sessionStorage.setItem("removeFood-id", foodId);
+  localStorage.setItem("removeFood-id", foodId);
 };
 
-export const getRemoveFoodId = () => sessionStorage.getItem("removeFood-id");
+export const getRemoveFoodId = () => localStorage.getItem("removeFood-id");

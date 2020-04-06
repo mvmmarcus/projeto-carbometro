@@ -11,7 +11,7 @@ import logoImg from '../../assets/carbLogo.png';
 
 import './Login.css';
 
-const Login = ({logado, setLogado}) => {
+const Login = ({ logado, setLogado }) => {
 
     const [users, setUsers] = useState([]);
     const [email, setEmail] = useState('');
@@ -37,7 +37,7 @@ const Login = ({logado, setLogado}) => {
                     Email e/ou Senha incorreto!
                                 </div>
 
-                ReactDOM.render(element, document.getElementById("boot"));
+                ReactDOM.render(element, document.getElementById("login-err"));
             });
 
         setEmail('');
@@ -45,7 +45,7 @@ const Login = ({logado, setLogado}) => {
     };
 
     if (logado) {
-        return <Redirect to="/home" />
+        return <Redirect to="/profile" />
     }
 
     return (
@@ -55,7 +55,7 @@ const Login = ({logado, setLogado}) => {
 
                 <form onSubmit={handleSubmit} >
                     <h1>Entre para começar</h1>
-
+                    <div id="login-err" ></div>
                     <input
                         placeholder="Email"
                         name="email"
